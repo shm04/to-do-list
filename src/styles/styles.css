@@ -1,0 +1,60 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 50vh;
+}
+
+.main {
+  border: solid 1px gray;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.title {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.input {
+  height: 40px;
+  border: solid 1px gray;
+  border-left: none;
+  border-right: none;
+  padding-left: 10px;
+}
+
+.input::placeholder {
+  font-size: 15px;
+}
+
+.list {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dots-img {
+  height: 30px;
+}
+
+.button {
+  height: 60px;
+  border: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: solid 1px gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 15px;
+}
