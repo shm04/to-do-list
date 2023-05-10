@@ -110,9 +110,9 @@ Sebastián Hernández
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- [ ] **You will remove tasks**
-- [ ] **You will remove all completed tasks**
-- [ ] **Everything is going to be saved on local storage**
+ [ ] **You will remove tasks**
+ [ ] **You will remove all completed tasks**
+ [ ] **Everything is going to be saved on local storage**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
