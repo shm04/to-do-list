@@ -2,6 +2,147 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/addTask.js":
+/*!************************!*\
+  !*** ./src/addTask.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addTask": () => (/* binding */ addTask),
+/* harmony export */   "input": () => (/* binding */ input),
+/* harmony export */   "tasks": () => (/* binding */ tasks)
+/* harmony export */ });
+var input = document.querySelector('.input');
+var tasks = [];
+var addTask = function addTask() {
+  var inputValue = input.value;
+  var newTask = {
+    completed: false,
+    description: "".concat(inputValue),
+    index: 0
+  };
+  tasks.push(newTask);
+};
+
+
+/***/ }),
+
+/***/ "./src/createDelete.js":
+/*!*****************************!*\
+  !*** ./src/createDelete.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createTask": () => (/* binding */ createTask),
+/* harmony export */   "list": () => (/* binding */ list)
+/* harmony export */ });
+/* harmony import */ var _assets_dots_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets/dots.png */ "./src/assets/dots.png");
+/* harmony import */ var _assets_delete_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/delete.png */ "./src/assets/delete.png");
+/* harmony import */ var _addTask_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./addTask.js */ "./src/addTask.js");
+/* harmony import */ var _storageFunc_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./storageFunc.js */ "./src/storageFunc.js");
+
+
+
+
+var list = document.querySelector('.list');
+var createTask = function createTask() {
+  list.innerHTML = '';
+  _addTask_js__WEBPACK_IMPORTED_MODULE_2__.tasks.forEach(function (task, index) {
+    var li = document.createElement('li');
+    li.classList.add('list-item');
+    li.innerHTML = "\n      <input type=\"checkbox\" value=\"".concat(task.completed, "\">\n      <p class=\"li-text\">").concat(task.description, "</p>\n      <img src=\"").concat(_assets_delete_png__WEBPACK_IMPORTED_MODULE_1__, "\" id=\"").concat(index, "\" class=\"delete-icon\">\n      <img src=\"").concat(_assets_dots_png__WEBPACK_IMPORTED_MODULE_0__, "\" id=\"").concat(index, "\" class=\"dots-img\">\n    ");
+    list.appendChild(li);
+    task.index = index.toString();
+    var taskText = li.querySelector('.li-text');
+    taskText.addEventListener('click', function () {
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.value = task.description;
+      input.classList.add('edit-input');
+      input.addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+          task.description = input.value;
+          createTask();
+          _storageFunc_js__WEBPACK_IMPORTED_MODULE_3__.saveTasks();
+        }
+      });
+      input.addEventListener('blur', function () {
+        task.description = input.value;
+        createTask();
+        _storageFunc_js__WEBPACK_IMPORTED_MODULE_3__.saveTasks();
+      });
+      taskText.replaceWith(input);
+    });
+  });
+  var trashcanIcon = document.querySelectorAll('.delete-icon');
+  trashcanIcon.forEach(function (trashcanIcon) {
+    trashcanIcon.addEventListener('click', function () {
+      var updatedTasks = _addTask_js__WEBPACK_IMPORTED_MODULE_2__.tasks.filter(function (t) {
+        return t.index !== trashcanIcon.id;
+      });
+      _addTask_js__WEBPACK_IMPORTED_MODULE_2__.tasks.length = 0;
+      Array.prototype.push.apply(_addTask_js__WEBPACK_IMPORTED_MODULE_2__.tasks, updatedTasks);
+      createTask();
+      _storageFunc_js__WEBPACK_IMPORTED_MODULE_3__.saveTasks();
+    });
+  });
+};
+
+
+/***/ }),
+
+/***/ "./src/inputImg.js":
+/*!*************************!*\
+  !*** ./src/inputImg.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _assets_enter_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets/enter.png */ "./src/assets/enter.png");
+
+var inputImg = document.createElement('img');
+inputImg.src = _assets_enter_png__WEBPACK_IMPORTED_MODULE_0__;
+inputImg.classList.add('enter-img');
+var inputDiv = document.querySelector('.input-div');
+inputDiv.appendChild(inputImg);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (inputImg);
+
+/***/ }),
+
+/***/ "./src/storageFunc.js":
+/*!****************************!*\
+  !*** ./src/storageFunc.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "loadTasks": () => (/* binding */ loadTasks),
+/* harmony export */   "saveTasks": () => (/* binding */ saveTasks)
+/* harmony export */ });
+/* harmony import */ var _addTask_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addTask.js */ "./src/addTask.js");
+
+var saveTasks = function saveTasks() {
+  localStorage.setItem('tasks', JSON.stringify(_addTask_js__WEBPACK_IMPORTED_MODULE_0__.tasks));
+};
+var loadTasks = function loadTasks() {
+  var savedTasks = localStorage.getItem('tasks');
+  if (savedTasks) {
+    _addTask_js__WEBPACK_IMPORTED_MODULE_0__.tasks.length = 0;
+    Array.prototype.push.apply(_addTask_js__WEBPACK_IMPORTED_MODULE_0__.tasks, JSON.parse(savedTasks));
+  }
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/styles/styles.css":
 /*!*********************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/styles/styles.css ***!
@@ -21,7 +162,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    font-family: Arial, Helvetica, sans-serif;\r\n    height: 50vh;\r\n}\r\n\r\n.main {\r\n    border: solid 1px gray;\r\n    border-radius: 10px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    width: 500px;\r\n}\r\n\r\n.title {\r\n    font-size: 20px;\r\n    margin-left: 10px;\r\n}\r\n\r\n.input {\r\n    height: 40px;\r\n    border: solid 1px gray;\r\n    border-left: none;\r\n    border-right: none;\r\n    padding-left: 10px;\r\n}\r\n\r\n.input::placeholder {\r\n    font-size: 15px;\r\n}\r\n\r\n.list {\r\n    list-style: none;\r\n    padding-left: 10px;\r\n}\r\n\r\n.list-item {\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n\r\n.dots-img {\r\n    height: 10px;\r\n}\r\n\r\n.button {\r\n    height: 60px;\r\n    border: none;\r\n    border-bottom-left-radius: 10px;\r\n    border-bottom-right-radius: 10px;\r\n    border-top: solid 1px gray;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    padding: 10px;\r\n    font-size: 15px;\r\n}\r\n\r\n.button:hover {\r\n    background-color: #e6e6e6;\r\n}", "",{"version":3,"sources":["webpack://./src/styles/styles.css"],"names":[],"mappings":"AAAA;IACI,aAAa;IACb,uBAAuB;IACvB,mBAAmB;IACnB,yCAAyC;IACzC,YAAY;AAChB;;AAEA;IACI,sBAAsB;IACtB,mBAAmB;IACnB,aAAa;IACb,sBAAsB;IACtB,YAAY;AAChB;;AAEA;IACI,eAAe;IACf,iBAAiB;AACrB;;AAEA;IACI,YAAY;IACZ,sBAAsB;IACtB,iBAAiB;IACjB,kBAAkB;IAClB,kBAAkB;AACtB;;AAEA;IACI,eAAe;AACnB;;AAEA;IACI,gBAAgB;IAChB,kBAAkB;AACtB;;AAEA;IACI,aAAa;IACb,8BAA8B;AAClC;;AAEA;IACI,YAAY;AAChB;;AAEA;IACI,YAAY;IACZ,YAAY;IACZ,+BAA+B;IAC/B,gCAAgC;IAChC,0BAA0B;IAC1B,aAAa;IACb,mBAAmB;IACnB,uBAAuB;IACvB,aAAa;IACb,eAAe;AACnB;;AAEA;IACI,yBAAyB;AAC7B","sourcesContent":["body {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    font-family: Arial, Helvetica, sans-serif;\r\n    height: 50vh;\r\n}\r\n\r\n.main {\r\n    border: solid 1px gray;\r\n    border-radius: 10px;\r\n    display: flex;\r\n    flex-direction: column;\r\n    width: 500px;\r\n}\r\n\r\n.title {\r\n    font-size: 20px;\r\n    margin-left: 10px;\r\n}\r\n\r\n.input {\r\n    height: 40px;\r\n    border: solid 1px gray;\r\n    border-left: none;\r\n    border-right: none;\r\n    padding-left: 10px;\r\n}\r\n\r\n.input::placeholder {\r\n    font-size: 15px;\r\n}\r\n\r\n.list {\r\n    list-style: none;\r\n    padding-left: 10px;\r\n}\r\n\r\n.list-item {\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n\r\n.dots-img {\r\n    height: 10px;\r\n}\r\n\r\n.button {\r\n    height: 60px;\r\n    border: none;\r\n    border-bottom-left-radius: 10px;\r\n    border-bottom-right-radius: 10px;\r\n    border-top: solid 1px gray;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    padding: 10px;\r\n    font-size: 15px;\r\n}\r\n\r\n.button:hover {\r\n    background-color: #e6e6e6;\r\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\r\n  font-family: Arial, Helvetica, sans-serif;\r\n}\r\n\r\nbody {\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  height: 50vh;\r\n}\r\n\r\n.main {\r\n  border: solid 1px gray;\r\n  border-radius: 10px;\r\n  display: flex;\r\n  flex-direction: column;\r\n  width: 500px;\r\n}\r\n\r\n.title {\r\n  font-size: 20px;\r\n  margin-left: 10px;\r\n}\r\n\r\n.input-div {\r\n  display: flex;\r\n  align-items: center;\r\n  border: solid 1px gray;\r\n  border-left: none;\r\n  border-right: none;\r\n}\r\n\r\n.input {\r\n  height: 40px;\r\n  padding-left: 10px;\r\n  width: 85vw;\r\n  border: none;\r\n}\r\n\r\n.input:focus {\r\n  outline: none;\r\n}\r\n\r\n.input::placeholder {\r\n  font-size: 15px;\r\n}\r\n\r\n.enter-img {\r\n  height: 25px;\r\n  margin-right: 15px;\r\n}\r\n\r\n.list {\r\n  list-style: none;\r\n  padding-left: 10px;\r\n}\r\n\r\n.list-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  margin: 10px 0;\r\n}\r\n\r\n.li-text {\r\n  margin: 0 50px;\r\n}\r\n\r\n.edit-input {\r\n  font-size: 15px;\r\n  height: 30px;\r\n  padding-left: 10px;\r\n  margin-left: 50px;\r\n}\r\n\r\n.delete-icon {\r\n  height: 25px;\r\n  justify-self: flex-end;\r\n  margin-left: auto;\r\n}\r\n\r\n.dots-img {\r\n  height: 30px;\r\n}\r\n\r\n.button {\r\n  height: 60px;\r\n  border: none;\r\n  border-bottom-left-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n  border-top: solid 1px gray;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 10px;\r\n  font-size: 15px;\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/styles/styles.css"],"names":[],"mappings":"AAAA;EACE,yCAAyC;AAC3C;;AAEA;EACE,aAAa;EACb,uBAAuB;EACvB,mBAAmB;EACnB,YAAY;AACd;;AAEA;EACE,sBAAsB;EACtB,mBAAmB;EACnB,aAAa;EACb,sBAAsB;EACtB,YAAY;AACd;;AAEA;EACE,eAAe;EACf,iBAAiB;AACnB;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,sBAAsB;EACtB,iBAAiB;EACjB,kBAAkB;AACpB;;AAEA;EACE,YAAY;EACZ,kBAAkB;EAClB,WAAW;EACX,YAAY;AACd;;AAEA;EACE,aAAa;AACf;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,cAAc;AAChB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,eAAe;EACf,YAAY;EACZ,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,YAAY;EACZ,sBAAsB;EACtB,iBAAiB;AACnB;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,YAAY;EACZ,YAAY;EACZ,+BAA+B;EAC/B,gCAAgC;EAChC,0BAA0B;EAC1B,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,aAAa;EACb,eAAe;AACjB","sourcesContent":["* {\r\n  font-family: Arial, Helvetica, sans-serif;\r\n}\r\n\r\nbody {\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  height: 50vh;\r\n}\r\n\r\n.main {\r\n  border: solid 1px gray;\r\n  border-radius: 10px;\r\n  display: flex;\r\n  flex-direction: column;\r\n  width: 500px;\r\n}\r\n\r\n.title {\r\n  font-size: 20px;\r\n  margin-left: 10px;\r\n}\r\n\r\n.input-div {\r\n  display: flex;\r\n  align-items: center;\r\n  border: solid 1px gray;\r\n  border-left: none;\r\n  border-right: none;\r\n}\r\n\r\n.input {\r\n  height: 40px;\r\n  padding-left: 10px;\r\n  width: 85vw;\r\n  border: none;\r\n}\r\n\r\n.input:focus {\r\n  outline: none;\r\n}\r\n\r\n.input::placeholder {\r\n  font-size: 15px;\r\n}\r\n\r\n.enter-img {\r\n  height: 25px;\r\n  margin-right: 15px;\r\n}\r\n\r\n.list {\r\n  list-style: none;\r\n  padding-left: 10px;\r\n}\r\n\r\n.list-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  margin: 10px 0;\r\n}\r\n\r\n.li-text {\r\n  margin: 0 50px;\r\n}\r\n\r\n.edit-input {\r\n  font-size: 15px;\r\n  height: 30px;\r\n  padding-left: 10px;\r\n  margin-left: 50px;\r\n}\r\n\r\n.delete-icon {\r\n  height: 25px;\r\n  justify-self: flex-end;\r\n  margin-left: auto;\r\n}\r\n\r\n.dots-img {\r\n  height: 30px;\r\n}\r\n\r\n.button {\r\n  height: 60px;\r\n  border: none;\r\n  border-bottom-left-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n  border-top: solid 1px gray;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 10px;\r\n  font-size: 15px;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -468,6 +609,16 @@ module.exports = styleTagTransform;
 
 /***/ }),
 
+/***/ "./src/assets/delete.png":
+/*!*******************************!*\
+  !*** ./src/assets/delete.png ***!
+  \*******************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "delete.png";
+
+/***/ }),
+
 /***/ "./src/assets/dots.png":
 /*!*****************************!*\
   !*** ./src/assets/dots.png ***!
@@ -475,6 +626,16 @@ module.exports = styleTagTransform;
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 module.exports = __webpack_require__.p + "dots.png";
+
+/***/ }),
+
+/***/ "./src/assets/enter.png":
+/*!******************************!*\
+  !*** ./src/assets/enter.png ***!
+  \******************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "enter.png";
 
 /***/ })
 
@@ -594,39 +755,35 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_styles_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/styles.css */ "./src/styles/styles.css");
-/* harmony import */ var _assets_dots_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/dots.png */ "./src/assets/dots.png");
+/* harmony import */ var _addTask_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addTask.js */ "./src/addTask.js");
+/* harmony import */ var _storageFunc_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storageFunc.js */ "./src/storageFunc.js");
+/* harmony import */ var _createDelete_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createDelete.js */ "./src/createDelete.js");
+/* harmony import */ var _inputImg_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./inputImg.js */ "./src/inputImg.js");
 
 
-var list = document.querySelector('.list');
-var input = document.querySelector('.input');
-var tasks = [];
-var add = function add() {
-  var inputValue = input.value;
-  var newTask = {
-    completed: false,
-    description: "".concat(inputValue),
-    index: 0
-  };
-  tasks.push(newTask);
-};
-var create = function create() {
-  list.innerHTML = '';
-  tasks.forEach(function (task, index) {
-    var li = document.createElement('li');
-    li.classList.add('list-item');
-    li.innerHTML = "\n    <input type=\"checkbox\" value=\"".concat(task.completed, "\">\n    <p class=\"li-text\">").concat(task.description, "</p>\n    <img src=\"").concat(_assets_dots_png__WEBPACK_IMPORTED_MODULE_1__, "\" id=\"").concat(index, "\" class=\"dots-img\">\n    ");
-    list.appendChild(li);
-  });
-};
-input.addEventListener('keydown', function (event) {
+
+
+
+_addTask_js__WEBPACK_IMPORTED_MODULE_1__.input.addEventListener('keydown', function (event) {
   if (event.key === 'Enter') {
-    add();
-    create();
-    input.value = '';
+    _addTask_js__WEBPACK_IMPORTED_MODULE_1__.addTask();
+    _createDelete_js__WEBPACK_IMPORTED_MODULE_3__.createTask();
+    _addTask_js__WEBPACK_IMPORTED_MODULE_1__.input.value = '';
+    _storageFunc_js__WEBPACK_IMPORTED_MODULE_2__.saveTasks();
   }
+});
+_inputImg_js__WEBPACK_IMPORTED_MODULE_4__["default"].addEventListener('click', function () {
+  _addTask_js__WEBPACK_IMPORTED_MODULE_1__.addTask();
+  _createDelete_js__WEBPACK_IMPORTED_MODULE_3__.createTask();
+  _addTask_js__WEBPACK_IMPORTED_MODULE_1__.input.value = '';
+  _storageFunc_js__WEBPACK_IMPORTED_MODULE_2__.saveTasks();
+});
+window.addEventListener('load', function () {
+  _storageFunc_js__WEBPACK_IMPORTED_MODULE_2__.loadTasks();
+  _createDelete_js__WEBPACK_IMPORTED_MODULE_3__.createTask();
 });
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundlecda83896eb4a50c81d4c.js.map
+//# sourceMappingURL=bundle3149a699d90e0dccfd14.js.map
