@@ -13,11 +13,11 @@ const createTask = () => {
     li.innerHTML = `
       <input type="checkbox" value="${task.completed}">
       <p class="li-text">${task.description}</p>
-      <img src="${deleteIcon}" id="${index}" class="delete-icon">
-      <img src="${dots}" id="${index}" class="dots-img">
+      <img src="${deleteIcon}" id="${index + 1}" class="delete-icon">
+      <img src="${dots}" class="dots-img">
     `;
     list.appendChild(li);
-    task.index = index.toString();
+    task.index = index + 1;
 
     const taskText = li.querySelector('.li-text');
 
@@ -49,7 +49,8 @@ const createTask = () => {
 
   trashcanIcon.forEach((trashcanIcon) => {
     trashcanIcon.addEventListener('click', () => {
-      const updatedTasks = tasks.filter((t) => t.index !== trashcanIcon.id);
+      const trashcanId = parseInt(trashcanIcon.id, 10);
+      const updatedTasks = tasks.filter((t) => t.index !== trashcanId);
       tasks.length = 0;
       Array.prototype.push.apply(tasks, updatedTasks);
       createTask();
