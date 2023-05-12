@@ -1,35 +1,26 @@
 import './styles/styles.css';
-import dots from './assets/dots.png';
+import * as add from './addTask.js';
+import * as storage from './storageFunc.js';
+import * as create from './createDelete.js';
+import inputImg from './inputImg.js';
 
-const list = document.querySelector('.list');
-const input = document.querySelector('.input');
-
-const tasks = [];
-
-const add = () => {
-  const inputValue = input.value;
-  const newTask = { completed: false, description: `${inputValue}`, index: 0 };
-  tasks.push(newTask);
-};
-
-const create = () => {
-  list.innerHTML = '';
-  tasks.forEach((task, index) => {
-    const li = document.createElement('li');
-    li.classList.add('list-item');
-    li.innerHTML = `
-    <input type="checkbox" value="${task.completed}">
-    <p class="li-text">${task.description}</p>
-    <img src="${dots}" id="${index}" class="dots-img">
-    `;
-    list.appendChild(li);
-  });
-};
-
-input.addEventListener('keydown', (event) => {
+add.input.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
-    add();
-    create();
-    input.value = '';
+    add.addTask();
+    create.createTask();
+    add.input.value = '';
+    storage.saveTasks();
   }
+});
+
+inputImg.addEventListener('click', () => {
+  add.addTask();
+  create.createTask();
+  add.input.value = '';
+  storage.saveTasks();
+});
+
+window.addEventListener('load', () => {
+  storage.loadTasks();
+  create.createTask();
 });
