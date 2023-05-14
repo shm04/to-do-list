@@ -2,6 +2,7 @@ import { tasks } from './addTask.js';
 import * as storage from './storageFunc.js';
 import deleteIcon from './assets/delete.png';
 import dots from './assets/dots.png';
+import toggleCheckbox from './checkbox.js';
 
 const list = document.querySelector('.list');
 
@@ -49,9 +50,7 @@ const createTask = (loadedTasks) => {
     });
 
     checkbox.addEventListener('change', () => {
-      task.completed = checkbox.checked;
-      taskText.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
-      storage.saveTasks(tasks);
+      toggleCheckbox(taskText, task, checkbox);
     });
   });
 

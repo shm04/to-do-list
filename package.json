@@ -1,7 +1,7 @@
 {
   "name": "webpack-setup",
   "version": "1.0.0",
-  "description": "",
+  "description": "- [📖 About the Project](#about-project)\r   - [🛠 Built With](#built-with)\r     - [Tech Stack](#tech-stack)\r     - [Key Features](#key-features)\r   - [🚀 Live Demo](#live-demo)\r - [💻 Getting Started](#getting-started)\r   - [Setup](#setup)\r   - [Prerequisites](#prerequisites)\r   - [Install](#install)\r   - [Usage](#usage)\r   - [Run tests](#run-tests)\r   - [Deployment](#triangular_flag_on_post-deployment)\r - [👥 Authors](#authors)\r - [🔭 Future Features](#future-features)\r - [🤝 Contributing](#contributing)\r - [⭐️ Show your support](#support)\r - [🙏 Acknowledgements](#acknowledgements)\r - [📝 License](#license)",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
@@ -31,5 +31,13 @@
     "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1",
     "webpack-dev-server": "^4.15.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shm04/to-do-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shm04/to-do-list/issues"
+  },
+  "homepage": "https://github.com/shm04/to-do-list#readme"
 }

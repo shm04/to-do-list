@@ -1,6 +1,6 @@
 import { tasks } from './addTask.js';
 
-const saveTasks = (tasks) => {
+const saveTasks = () => {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 };
 
