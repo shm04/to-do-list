@@ -1,18 +1,21 @@
-import dots from './assets/dots.png';
-import deleteIcon from './assets/delete.png';
 import { tasks } from './addTask.js';
 import * as storage from './storageFunc.js';
+import deleteIcon from './assets/delete.png';
+import dots from './assets/dots.png';
 
 const list = document.querySelector('.list');
 
-const createTask = () => {
+const createTask = (loadedTasks) => {
+  const taskList = loadedTasks || tasks;
+
   list.innerHTML = '';
-  tasks.forEach((task, index) => {
+
+  taskList.forEach((task, index) => {
     const li = document.createElement('li');
     li.classList.add('list-item');
     li.innerHTML = `
-      <input type="checkbox" value="${task.completed}">
-      <p class="li-text">${task.description}</p>
+      <input class="checkbox" type="checkbox" ${task.completed ? 'checked' : ''}>
+      <p class="li-text" style="text-decoration: ${task.completed ? 'line-through' : 'none'}">${task.description}</p>
       <img src="${deleteIcon}" id="${index + 1}" class="delete-icon">
       <img src="${dots}" class="dots-img">
     `;
@@ -20,6 +23,7 @@ const createTask = () => {
     task.index = index + 1;
 
     const taskText = li.querySelector('.li-text');
+    const checkbox = li.querySelector('.checkbox');
 
     taskText.addEventListener('click', () => {
       const input = document.createElement('input');
@@ -43,6 +47,12 @@ const createTask = () => {
 
       taskText.replaceWith(input);
     });
+
+    checkbox.addEventListener('change', () => {
+      task.completed = checkbox.checked;
+      taskText.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+      storage.saveTasks(tasks);
+    });
   });
 
   const trashcanIcon = document.querySelectorAll('.delete-icon');
@@ -54,8 +64,18 @@ const createTask = () => {
       tasks.length = 0;
       Array.prototype.push.apply(tasks, updatedTasks);
       createTask();
-      storage.saveTasks();
+      storage.saveTasks(tasks);
     });
+  });
+
+  const clear = document.querySelector('.clear-all');
+
+  clear.addEventListener('click', () => {
+    const incompleteTasks = tasks.filter((task) => !task.completed);
+    tasks.length = 0;
+    Array.prototype.push.apply(tasks, incompleteTasks);
+    createTask();
+    storage.saveTasks();
   });
 };
 

@@ -22,5 +22,5 @@ inputImg.addEventListener('click', () => {
 
 window.addEventListener('load', () => {
   storage.loadTasks();
-  create.createTask();
+  create.createTask(storage.getTasks());
 });
