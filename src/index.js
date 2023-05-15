@@ -4,23 +4,27 @@ import * as storage from './storageFunc.js';
 import * as create from './createDelete.js';
 import inputImg from './inputImg.js';
 
-add.input.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
+document.addEventListener('DOMContentLoaded', () => {
+  create.createTask();
+
+  add.input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      add.addTask();
+      add.input.value = '';
+      storage.saveTasks();
+      create.createTask(storage.getTasks());
+    }
+  });
+
+  inputImg.addEventListener('click', () => {
     add.addTask();
-    create.createTask();
     add.input.value = '';
     storage.saveTasks();
-  }
-});
+    create.createTask(storage.getTasks());
+  });
 
-inputImg.addEventListener('click', () => {
-  add.addTask();
-  create.createTask();
-  add.input.value = '';
-  storage.saveTasks();
-});
-
-window.addEventListener('load', () => {
-  storage.loadTasks();
-  create.createTask(storage.getTasks());
+  window.addEventListener('load', () => {
+    storage.loadTasks();
+    create.createTask(storage.getTasks());
+  });
 });

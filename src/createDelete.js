@@ -9,6 +9,11 @@ const list = document.querySelector('.list');
 const createTask = (loadedTasks) => {
   const taskList = loadedTasks || tasks;
 
+  const updateTaskList = () => {
+    storage.saveTasks(tasks);
+    createTask();
+  };
+
   list.innerHTML = '';
 
   taskList.forEach((task, index) => {
@@ -20,6 +25,7 @@ const createTask = (loadedTasks) => {
       <img src="${deleteIcon}" id="${index + 1}" class="delete-icon">
       <img src="${dots}" class="dots-img">
     `;
+
     list.appendChild(li);
     task.index = index + 1;
 
@@ -35,22 +41,22 @@ const createTask = (loadedTasks) => {
       input.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') {
           task.description = input.value;
-          createTask();
-          storage.saveTasks();
+          updateTaskList();
         }
       });
 
       input.addEventListener('blur', () => {
         task.description = input.value;
-        createTask();
-        storage.saveTasks();
+        updateTaskList();
       });
 
       taskText.replaceWith(input);
     });
 
-    checkbox.addEventListener('change', () => {
-      toggleCheckbox(taskText, task, checkbox);
+    checkbox.addEventListener('click', () => {
+      toggleCheckbox(task);
+      storage.saveTasks();
+      createTask();
     });
   });
 
@@ -59,11 +65,14 @@ const createTask = (loadedTasks) => {
   trashcanIcon.forEach((trashcanIcon) => {
     trashcanIcon.addEventListener('click', () => {
       const trashcanId = parseInt(trashcanIcon.id, 10);
-      const updatedTasks = tasks.filter((t) => t.index !== trashcanId);
+      const updatedTasks = tasks.filter((task) => task.index !== trashcanId);
+      updatedTasks.forEach((task, index) => {
+        task.index = index + 1;
+      });
       tasks.length = 0;
       Array.prototype.push.apply(tasks, updatedTasks);
-      createTask();
-      storage.saveTasks(tasks);
+      storage.saveTasks();
+      createTask(storage.getTasks());
     });
   });
 
@@ -73,8 +82,7 @@ const createTask = (loadedTasks) => {
     const incompleteTasks = tasks.filter((task) => !task.completed);
     tasks.length = 0;
     Array.prototype.push.apply(tasks, incompleteTasks);
-    createTask();
-    storage.saveTasks();
+    updateTaskList();
   });
 };
 
