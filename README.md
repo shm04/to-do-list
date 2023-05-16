@@ -47,7 +47,7 @@ This is a web page where you can add and remove tasks, these are going to be sto
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo Link](https://shm04.github.io/to-do-list/)
+- [Live Demo Link](https://shm04.github.io/to-do-list/dist)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
