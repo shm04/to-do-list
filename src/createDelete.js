@@ -1,25 +1,36 @@
-import dots from './assets/dots.png';
-import deleteIcon from './assets/delete.png';
 import { tasks } from './addTask.js';
 import * as storage from './storageFunc.js';
+import deleteIcon from './assets/delete.png';
+import dots from './assets/dots.png';
+import toggleCheckbox from './checkbox.js';
 
 const list = document.querySelector('.list');
 
-const createTask = () => {
+const createTask = (loadedTasks) => {
+  const taskList = loadedTasks || tasks;
+
+  const updateTaskList = () => {
+    storage.saveTasks(tasks);
+    createTask();
+  };
+
   list.innerHTML = '';
-  tasks.forEach((task, index) => {
+
+  taskList.forEach((task, index) => {
     const li = document.createElement('li');
     li.classList.add('list-item');
     li.innerHTML = `
-      <input type="checkbox" value="${task.completed}">
-      <p class="li-text">${task.description}</p>
+      <input class="checkbox" type="checkbox" ${task.completed ? 'checked' : ''}>
+      <p class="li-text" style="text-decoration: ${task.completed ? 'line-through' : 'none'}">${task.description}</p>
       <img src="${deleteIcon}" id="${index + 1}" class="delete-icon">
       <img src="${dots}" class="dots-img">
     `;
+
     list.appendChild(li);
     task.index = index + 1;
 
     const taskText = li.querySelector('.li-text');
+    const checkbox = li.querySelector('.checkbox');
 
     taskText.addEventListener('click', () => {
       const input = document.createElement('input');
@@ -30,18 +41,22 @@ const createTask = () => {
       input.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') {
           task.description = input.value;
-          createTask();
-          storage.saveTasks();
+          updateTaskList();
         }
       });
 
       input.addEventListener('blur', () => {
         task.description = input.value;
-        createTask();
-        storage.saveTasks();
+        updateTaskList();
       });
 
       taskText.replaceWith(input);
+    });
+
+    checkbox.addEventListener('click', () => {
+      toggleCheckbox(task);
+      storage.saveTasks();
+      createTask();
     });
   });
 
@@ -50,12 +65,24 @@ const createTask = () => {
   trashcanIcon.forEach((trashcanIcon) => {
     trashcanIcon.addEventListener('click', () => {
       const trashcanId = parseInt(trashcanIcon.id, 10);
-      const updatedTasks = tasks.filter((t) => t.index !== trashcanId);
+      const updatedTasks = tasks.filter((task) => task.index !== trashcanId);
+      updatedTasks.forEach((task, index) => {
+        task.index = index + 1;
+      });
       tasks.length = 0;
       Array.prototype.push.apply(tasks, updatedTasks);
-      createTask();
       storage.saveTasks();
+      createTask(storage.getTasks());
     });
+  });
+
+  const clear = document.querySelector('.clear-all');
+
+  clear.addEventListener('click', () => {
+    const incompleteTasks = tasks.filter((task) => !task.completed);
+    tasks.length = 0;
+    Array.prototype.push.apply(tasks, incompleteTasks);
+    updateTaskList();
   });
 };
 

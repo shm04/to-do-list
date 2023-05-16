@@ -83,7 +83,7 @@ body {
   height: 30px;
 }
 
-.button {
+.clear-all {
   height: 60px;
   border: none;
   border-bottom-left-radius: 10px;
@@ -94,4 +94,8 @@ body {
   justify-content: center;
   padding: 10px;
   font-size: 15px;
+}
+
+.clear-all:hover {
+  background-color: rgb(206, 201, 201);
 }
